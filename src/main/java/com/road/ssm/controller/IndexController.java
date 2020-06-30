@@ -140,4 +140,9 @@ public class IndexController {
         return "login";
     }
 
+    @RequestMapping("/regin")
+    public String regin(){
+        return "regin";
+    }
+
 }
