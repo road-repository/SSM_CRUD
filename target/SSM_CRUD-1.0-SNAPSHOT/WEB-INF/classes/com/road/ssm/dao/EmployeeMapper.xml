@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road.ssm.dao.EmployeeMapper">
+    <resultMap id="BaseResultMap" type="com.road.ssm.bean.Employee">
+        <id column="emp_id" jdbcType="INTEGER" property="empId"/>
+        <result column="emp_name" jdbcType="VARCHAR" property="empName"/>
+        <result column="emp_gender" jdbcType="INTEGER" property="empGender"/>
+        <result column="emp_age" jdbcType="INTEGER" property="empAge"/>
+        <result column="emp_dateOnBoard" jdbcType="TIMESTAMP" property="empDateonboard"/>
+        <result column="dp_id" jdbcType="INTEGER" property="dpId"/>
+    </resultMap>
+    <resultMap id="WithDeptBaseResultMap" type="com.road.ssm.bean.Employee">
+        <id column="emp_id" jdbcType="INTEGER" property="empId"/>
+        <result column="emp_name" jdbcType="VARCHAR" property="empName"/>
+        <result column="emp_gender" jdbcType="INTEGER" property="empGender"/>
+        <result column="emp_age" jdbcType="INTEGER" property="empAge"/>
+        <result column="emp_dateOnBoard" jdbcType="TIMESTAMP" property="empDateonboard"/>
+        <result column="dp_id" jdbcType="INTEGER" property="dpId"/>
+        <association javaType="com.road.ssm.bean.Department" property="department">
+            <id column="dept_id" property="deptId"/>
+            <id column="dept_name" property="deptName"/>
+        </association>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        emp_id, emp_name, emp_gender, emp_age, emp_dateOnBoard, dp_id
+    </sql>
+    <sql id="WithDeptBase_Column_List">
+        e.emp_id,e.emp_name, e.emp_gender, e.emp_age, e.emp_dateOnBoard,e.dp_id,d.dept_id,d.dept_name
+    </sql>
+    <select id="selectByExample" parameterType="com.road.ssm.bean.EmployeeExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from employee
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByExampleWithDept" resultMap="WithDeptBaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="WithDeptBase_Column_List"/>
+        from employee e LEFT JOIN department d ON e.dp_id=d.dept_id
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from employee
+        where emp_id = #{empId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByPrimaryKeyWithDept" parameterType="java.lang.Integer" resultMap="WithDeptBaseResultMap">
+        select
+        <include refid="WithDeptBase_Column_List"/>
+        from employee e LEFT JOIN department d ON e.dp_id=d.dept_id
+        where emp_id = #{empId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from employee
+        where emp_id = #{empId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.road.ssm.bean.EmployeeExample">
+        delete from employee
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.road.ssm.bean.Employee">
+        insert into employee (emp_id, emp_name, emp_gender,
+        emp_age, emp_dateOnBoard, dp_id
+        )
+        values (#{empId,jdbcType=INTEGER}, #{empName,jdbcType=VARCHAR}, #{empGender,jdbcType=INTEGER},
+        #{empAge,jdbcType=INTEGER}, #{empDateonboard,jdbcType=TIMESTAMP}, #{dpId,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.road.ssm.bean.Employee">
+        insert into employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="empId != null">
+                emp_id,
+            </if>
+            <if test="empName != null">
+                emp_name,
+            </if>
+            <if test="empGender != null">
+                emp_gender,
+            </if>
+            <if test="empAge != null">
+                emp_age,
+            </if>
+            <if test="empDateonboard != null">
+                emp_dateOnBoard,
+            </if>
+            <if test="dpId != null">
+                dp_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="empId != null">
+                #{empId,jdbcType=INTEGER},
+            </if>
+            <if test="empName != null">
+                #{empName,jdbcType=VARCHAR},
+            </if>
+            <if test="empGender != null">
+                #{empGender,jdbcType=INTEGER},
+            </if>
+            <if test="empAge != null">
+                #{empAge,jdbcType=INTEGER},
+            </if>
+            <if test="empDateonboard != null">
+                #{empDateonboard,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dpId != null">
+                #{dpId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.road.ssm.bean.EmployeeExample" resultType="java.lang.Integer">
+        select count(*) from employee
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update employee
+        <set>
+            <if test="record.empId != null">
+                emp_id = #{record.empId,jdbcType=INTEGER},
+            </if>
+            <if test="record.empName != null">
+                emp_name = #{record.empName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.empGender != null">
+                emp_gender = #{record.empGender,jdbcType=INTEGER},
+            </if>
+            <if test="record.empAge != null">
+                emp_age = #{record.empAge,jdbcType=INTEGER},
+            </if>
+            <if test="record.empDateonboard != null">
+                emp_dateOnBoard = #{record.empDateonboard,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.dpId != null">
+                dp_id = #{record.dpId,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update employee
+        set emp_id = #{record.empId,jdbcType=INTEGER},
+        emp_name = #{record.empName,jdbcType=VARCHAR},
+        emp_gender = #{record.empGender,jdbcType=INTEGER},
+        emp_age = #{record.empAge,jdbcType=INTEGER},
+        emp_dateOnBoard = #{record.empDateonboard,jdbcType=TIMESTAMP},
+        dp_id = #{record.dpId,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.road.ssm.bean.Employee">
+        update employee
+        <set>
+            <if test="empName != null">
+                emp_name = #{empName,jdbcType=VARCHAR},
+            </if>
+            <if test="empGender != null">
+                emp_gender = #{empGender,jdbcType=INTEGER},
+            </if>
+            <if test="empAge != null">
+                emp_age = #{empAge,jdbcType=INTEGER},
+            </if>
+            <if test="empDateonboard != null">
+                emp_dateOnBoard = #{empDateonboard,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dpId != null">
+                dp_id = #{dpId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where emp_id = #{empId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.road.ssm.bean.Employee">
+        update employee
+        set emp_name = #{empName,jdbcType=VARCHAR},
+        emp_gender = #{empGender,jdbcType=INTEGER},
+        emp_age = #{empAge,jdbcType=INTEGER},
+        emp_dateOnBoard = #{empDateonboard,jdbcType=TIMESTAMP},
+        dp_id = #{dpId,jdbcType=INTEGER}
+        where emp_id = #{empId,jdbcType=INTEGER}
+    </update>
+</mapper>

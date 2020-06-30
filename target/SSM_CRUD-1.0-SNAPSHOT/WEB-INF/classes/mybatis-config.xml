@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--设置mybatis定义的属性配置  以下是自动转换成驼峰  如果数据库是 user_name 可以匹配userName    -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+    </settings>
+
+    <typeAliases>
+        <package name="com.road.ssm.bean"/>
+    </typeAliases>
+    <!-- 配置pageHelp分页插件 -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>
+
+</configuration>
