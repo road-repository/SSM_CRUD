@@ -196,17 +196,41 @@ public class IndexController {
         if (request.getParameter("rememb") != null) {
             addCookie(user.getUserName(), user.getUserPassword(), response, request);
         }
+
+        if(request.getParameter("autoSubmit")!=null){
+            addAutoSubmit(user.getUserName(), user.getUserPassword(),request,response);
+        }
+
         return "redirect:list";
     }
 
     /**
-     * 自动登录的方法
+     * 添加自动登录的方法
      * @return
      */
-    public String autoSubmit(HttpServletRequest request){
-        String autoSubmit = request.getParameter("autoSubmit");
-        if(autoSubmit!=null){
+    public void addAutoSubmit(String userName,String passwrod,HttpServletRequest request,HttpServletResponse response){
+        Cookie cookie=new Cookie("Auto_"+userName,userName+"_"+passwrod);
+        cookie.setPath(request.getContextPath()+"/");
+        //设置cookie保存的时间 单位：秒  时间是一周
+        cookie.setMaxAge(7*24*60*60);
+        //将cookie添加到响应
+        response.addCookie(cookie);
+    }
 
+    /**/
+    @ResponseBody
+    @RequestMapping(value="/getAutoSubmit")
+    public Map<String, String> autoSubmit(HttpServletRequest request){
+        Cookie[] cookie = request.getCookies();
+        Map<String, String> map = new HashMap<>();
+        for(Cookie c : cookie) {
+            if(c.getName().startsWith("Auto_")) {
+                String user = c.getValue();
+                String[] s = user.split("_");
+                map.put("userName",s[0]);
+                map.put("password",s[1]);
+                return map;
+            }
         }
         return null;
     }
@@ -248,10 +272,28 @@ public class IndexController {
      * 退出登录的方法
      */
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request,HttpServletResponse response){
+        Cookie cookie = new Cookie("Auto_"+request.getSession().getAttribute("userName"),"");
+        cookie.setPath(request.getContextPath()+"/");
+        cookie.setMaxAge(0); //设置立即删除
+        response.addCookie(cookie);
         HttpSession session = request.getSession();
         session.invalidate();
         return "redirect:index.jsp";
+    }
+
+    @RequestMapping("/list")
+    public String list(HttpServletRequest request){
+        HttpSession session = request.getSession();
+
+        Object userName = session.getAttribute("userName");
+        if(userName!=null){
+            return "list";
+        }else{
+            request.setAttribute("msg", "你还没登录呢！");
+            return "login";
+        }
+
     }
 
     @RequestMapping("/body")
@@ -263,10 +305,5 @@ public class IndexController {
     public String menu(){
 
         return "menu";
-    }
-    @RequestMapping("/list")
-    public String list(){
-
-        return "list";
     }
 }

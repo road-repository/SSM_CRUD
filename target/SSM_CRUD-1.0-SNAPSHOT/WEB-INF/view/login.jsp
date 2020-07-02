@@ -37,7 +37,7 @@
 <div class="container" id="container">
     <div class="row  col-lg-12 ">
         <div id="middle">
-            <form class="form-horizontal" action="${APP_PATH}/logins">
+            <form class="form-horizontal" action="${APP_PATH}/logins" method="post">
                 <div class="form-group">
                     <label class="col-sm-1"></label>
                     <img class="col-sm-9" style="width:500px;margin-left:3%" src="${APP_PATH}/static/log.png">
@@ -104,23 +104,6 @@
     //     }
     // }
 
-    /*用来做记住密码*/
-    function rememberCheck(string){
-        $.ajax({
-            type:"POST",
-            url: "/getCookie",
-            dataType:"json",
-            data:{
-                userName:string,
-            },
-            success:function(data){
-                $("#userName").val(data.userName);
-                $("#userPassword").val(data.password);
-            },
-            error:function() {
-                $("#userPassword").val("");
-            }
-        });
-    };
+
 </script>
 </html>

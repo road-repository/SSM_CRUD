@@ -30,7 +30,7 @@
 <div class="page-header row">
     <div class="col-md-4">
         <h2>SSM- CRUD
-            <small>for <span style="color: red">${param.userName}</span></small>
+            <small>for <span style="color: red">${sessionScope.userName}</span></small>
         </h2>
     </div>
     <a href="${APP_PATH}/logout" type="button" style="margin-top:25px;" class="btn btn-warning col-lg-offset-6"> <span class="glyphicon glyphicon-off"></span> LogOut</a>
@@ -212,7 +212,7 @@
 
 
 <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
-<script src="${APP_PATH}/static/jquery.min.js"></script>
+<script src="${APP_PATH}/static/js/jquery.min.js"></script>
 <!-- 包括所有已编译的插件 -->
 <script src="${APP_PATH}/static/bootstrap/js/bootstrap.min.js"></script>
 

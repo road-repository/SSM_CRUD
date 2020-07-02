@@ -5,7 +5,7 @@
   Time: 15:59
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
     <title>老铁来注册啦！</title>
@@ -13,11 +13,13 @@
         /*定义项目路径，为以后引用静态资源备用*/
         pageContext.setAttribute("APP_PATH", request.getContextPath());
     %>
-    <jsp:include page="config.jsp"></jsp:include>
     <link href="${APP_PATH}/static/fj.ico" rel="shortcut icon" type="image/x-icon"/>
-
+    <jsp:include page="config.jsp"></jsp:include>
+    <script type="text/javascript" language="javascript" src="${APP_PATH}/static/js/check.js" charset="UTF-8"></script>
     <style>
-
+        .red{
+            color: red;
+        }
         .container {
             margin-top: 10%;
             width: 40%;
@@ -77,6 +79,7 @@
             <div class="col-sm-5 inline-style ">
                 <input type="text" class="form-control" name="userName" id="userName" placeholder="用户名">
             </div>
+            <div  class="red" id="DivAcn"></div>
         </div>
         <div class="form-group">
             <!--<h2 class="form-signin-heading">注册</h2>-->
@@ -85,6 +88,7 @@
             <div class="col-sm-5 inline-style">
                 <input type="password" class="form-control" name="userPassword" id="userPassword" placeholder="密码">
             </div>
+            <div  class="red" id="DivPwd"></div>
         </div>
         <div class="form-group">
             <label for="email"
@@ -92,6 +96,7 @@
             <div class="col-sm-5  inline-style">
                 <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="邮箱">
             </div>
+            <div  class="red" id="DivEmail"></div>
         </div>
         <div class="form-group">
             <label for="phone"
@@ -99,6 +104,7 @@
             <div class="col-sm-5  inline-style">
                 <input type="tel" class="form-control" id="userPhone" name="userPhone" placeholder="手机">
             </div>
+            <div  class="red" id="DivPhone"></div>
         </div>
 
         <div class="form-group">
