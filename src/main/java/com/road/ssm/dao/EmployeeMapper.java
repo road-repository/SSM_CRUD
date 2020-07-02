@@ -26,6 +26,9 @@ public interface EmployeeMapper {
 
     Employee selectByPrimaryKeyWithDept(Integer empId);
 
+    /*自定义的多条件模糊查询*/
+    List<Employee> selectByPrimaryLike(@Param("empName") String empName,@Param("empAge")Integer empAge,@Param("empGender")Integer empGender,@Param("dpId")Integer dpId);
+
     int updateByExampleSelective(@Param("record") Employee record, @Param("example") EmployeeExample example);
 
     int updateByExample(@Param("record") Employee record, @Param("example") EmployeeExample example);

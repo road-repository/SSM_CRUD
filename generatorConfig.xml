@@ -36,5 +36,6 @@
 
         <table schema="mydatabase" tableName="employee" domainObjectName="Employee"></table>
         <table schema="mydatabase" tableName="department" domainObjectName="Department"></table>
+        <table schema="mydatabase" tableName="administrator_user" domainObjectName="User"></table>
     </context>
 </generatorConfiguration>

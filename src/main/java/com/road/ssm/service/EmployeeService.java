@@ -39,4 +39,9 @@ public class EmployeeService {
         return employeeMapper.deleteByPrimaryKey(id);
     }
 
+    public List<Employee> Serach(Employee employee){
+        List<Employee> employeeList = employeeMapper.selectByPrimaryLike(employee.getEmpName(),employee.getEmpAge(),employee.getEmpGender(),employee.getDpId());
+        return employeeList;
+    }
+
 }

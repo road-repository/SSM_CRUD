@@ -474,6 +474,126 @@ public class EmployeeExample {
             addCriterion("dp_id not between", value1, value2, "dpId");
             return (Criteria) this;
         }
+
+        public Criteria andVerisonIsNull() {
+            addCriterion("verison is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerisonIsNotNull() {
+            addCriterion("verison is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerisonEqualTo(Integer value) {
+            addCriterion("verison =", value, "verison");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerisonNotEqualTo(Integer value) {
+            addCriterion("verison <>", value, "verison");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerisonGreaterThan(Integer value) {
+            addCriterion("verison >", value, "verison");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerisonGreaterThanOrEqualTo(Integer value) {
+            addCriterion("verison >=", value, "verison");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerisonLessThan(Integer value) {
+            addCriterion("verison <", value, "verison");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerisonLessThanOrEqualTo(Integer value) {
+            addCriterion("verison <=", value, "verison");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerisonIn(List<Integer> values) {
+            addCriterion("verison in", values, "verison");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerisonNotIn(List<Integer> values) {
+            addCriterion("verison not in", values, "verison");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerisonBetween(Integer value1, Integer value2) {
+            addCriterion("verison between", value1, value2, "verison");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerisonNotBetween(Integer value1, Integer value2) {
+            addCriterion("verison not between", value1, value2, "verison");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagIsNull() {
+            addCriterion("logic_flag is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagIsNotNull() {
+            addCriterion("logic_flag is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagEqualTo(Integer value) {
+            addCriterion("logic_flag =", value, "logicFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagNotEqualTo(Integer value) {
+            addCriterion("logic_flag <>", value, "logicFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagGreaterThan(Integer value) {
+            addCriterion("logic_flag >", value, "logicFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagGreaterThanOrEqualTo(Integer value) {
+            addCriterion("logic_flag >=", value, "logicFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagLessThan(Integer value) {
+            addCriterion("logic_flag <", value, "logicFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagLessThanOrEqualTo(Integer value) {
+            addCriterion("logic_flag <=", value, "logicFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagIn(List<Integer> values) {
+            addCriterion("logic_flag in", values, "logicFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagNotIn(List<Integer> values) {
+            addCriterion("logic_flag not in", values, "logicFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagBetween(Integer value1, Integer value2) {
+            addCriterion("logic_flag between", value1, value2, "logicFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogicFlagNotBetween(Integer value1, Integer value2) {
+            addCriterion("logic_flag not between", value1, value2, "logicFlag");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

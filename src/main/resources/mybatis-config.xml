@@ -7,6 +7,7 @@
         <!--设置mybatis定义的属性配置  以下是自动转换成驼峰  如果数据库是 user_name 可以匹配userName    -->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
         <setting name="defaultExecutorType" value="SIMPLE"/>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
 
     <typeAliases>

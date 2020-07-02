@@ -1,5 +1,5 @@
 !(function(window, document) {
-    var size = 5;//设置验证码长度
+    var size = 4;//设置验证码长度
     function GVerify(options) { //创建一个图形验证码对象，接收options对象为参数
         this.options = { //默认options参数值
             id: "", //容器Id

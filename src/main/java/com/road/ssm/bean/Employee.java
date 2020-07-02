@@ -6,23 +6,15 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Integer empId, String empName, Integer empGender, Integer empAge, Date empDateonboard, Integer dpId, Department department) {
+    public Employee(Integer empId, String empName, Integer empGender, Integer empAge, Date empDateonboard, Integer dpId, Integer verison, Integer logicFlag) {
         this.empId = empId;
         this.empName = empName;
         this.empGender = empGender;
         this.empAge = empAge;
         this.empDateonboard = empDateonboard;
         this.dpId = dpId;
-        this.department = department;
-    }
-
-    public Employee(Integer empId, String empName, Integer empGender, Integer empAge, Date empDateonboard, Integer dpId) {
-        this.empId = empId;
-        this.empName = empName;
-        this.empGender = empGender;
-        this.empAge = empAge;
-        this.empDateonboard = empDateonboard;
-        this.dpId = dpId;
+        this.verison = verison;
+        this.logicFlag = logicFlag;
     }
 
     private Integer empId;
@@ -36,6 +28,10 @@ public class Employee {
     private Date empDateonboard;
 
     private Integer dpId;
+
+    private Integer verison;
+
+    private Integer logicFlag;
 
     private Department department;
 
@@ -87,6 +83,21 @@ public class Employee {
         this.dpId = dpId;
     }
 
+    public Integer getVerison() {
+        return verison;
+    }
+
+    public void setVerison(Integer verison) {
+        this.verison = verison;
+    }
+
+    public Integer getLogicFlag() {
+        return logicFlag;
+    }
+
+    public void setLogicFlag(Integer logicFlag) {
+        this.logicFlag = logicFlag;
+    }
 
     public Department getDepartment() {
         return department;
@@ -105,6 +116,8 @@ public class Employee {
                 ", empAge=" + empAge +
                 ", empDateonboard=" + empDateonboard +
                 ", dpId=" + dpId +
+                ", verison=" + verison +
+                ", logicFlag=" + logicFlag +
                 ", department=" + department +
                 '}';
     }

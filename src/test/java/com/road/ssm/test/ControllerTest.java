@@ -101,7 +101,14 @@ public class ControllerTest {
 
     @Test
     public void CreateGenerator() throws Exception {
-
+        List<String> warnings = new ArrayList<String>();
+        boolean overwrite = true;
+        File configFile = new File("generatorConfig.xml");
+        ConfigurationParser cp = new ConfigurationParser(warnings);
+        Configuration config = cp.parseConfiguration(configFile);
+        DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
+        myBatisGenerator.generate(null);
     }
 
     @Test
@@ -116,7 +123,7 @@ public class ControllerTest {
             int gender = (int) ((10 * Math.random())) % 2;
             int age = (int) (10 + Math.random() * (40 - 10 + 1));
             int dp = (int) (1 + Math.random() * (5 - 1 + 1));
-            Employee employee = new Employee(null, subName, gender, age, null, dp);
+            Employee employee = new Employee(null, subName, gender, age, null, dp,null,null);
             mapper.insertSelective(employee);
             System.out.println(employee);
             i++;
