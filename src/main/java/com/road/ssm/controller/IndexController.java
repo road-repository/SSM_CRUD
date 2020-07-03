@@ -38,6 +38,7 @@ public class IndexController {
     @Autowired
     UserServeice userServeice;
 
+
     /**
      * 解析员工列表信息的解析器
      *
@@ -86,7 +87,7 @@ public class IndexController {
     @RequestMapping(value = "/addemp", method = RequestMethod.POST)
     public String addEmp(Employee emp) {
         employeeService.addEmp(emp);
-        return "../../index";
+        return "list";
     }
 
     /**
@@ -291,7 +292,7 @@ public class IndexController {
             return "list";
         }else{
             request.setAttribute("msg", "你还没登录呢！");
-            return "login";
+            return "../../index";
         }
 
     }

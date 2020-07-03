@@ -9,7 +9,6 @@
 <html>
 <head>
     <title>员工列表</title>
-
     <%
         pageContext.setAttribute("APP_PATH", request.getContextPath());
     %>
@@ -38,7 +37,6 @@
 
 <!--顶部的两个按钮-->
 <div class="row">
-
     <div class="searchCdi" style="margin-left: 10%">
         <form id="form1">
             <div class="col-lg-2">
@@ -60,7 +58,7 @@
             <div class="col-lg-2">
                 <div class="input-group">
                     <select class="form-control" name="empGender">
-                        <option>请选择</option>
+                        <option value="" class="select">请选择</option>
                         <option value="1">男</option>
                         <option value="0">女</option>
                     </select>
@@ -71,8 +69,8 @@
             </div>
             <div class="col-lg-2">
                 <div class="input-group">
-                    <select class="form-control" name="dpId" id="deptSelect">
-                        <option>请选择</option>
+                    <select class="form-control" name="dpId" id="titleSelect">
+                        <option value=""  class="select">请选择</option>
                     </select>
                     <span class="input-group-btn">
                     <button class="btn btn-default serachButton" type="button">Go!</button>
@@ -133,20 +131,20 @@
                 <form id="createForm" method="post">
                     <div class="form-group">
                         <label for="exampleInputName">姓名</label>
-                        <input type="text" class="form-control" id="exampleInputName" name="empName">
+                        <input type="text" class="form-control" autocomplete="off" id="exampleInputName" name="empName">
                     </div>
                     <div class="radio">
                         <label class="radio-inline">
                             <input type="radio" name="empGender" id="inlineRadio1" value="1" checked="checked"> 男
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="empGender" id="inlineRadio2" value="0"> 女
+                            <input type="radio" autocomplete="off" name="empGender" id="inlineRadio2" value="0"> 女
                         </label>
                     </div>
 
                     <div class="form-group">
                         <label for="exampleInputAge">年龄</label>
-                        <input type="text" class="form-control" name="empAge" id="exampleInputAge">
+                        <input type="text" autocomplete="off" class="form-control" name="empAge" id="exampleInputAge">
                     </div>
 
                     <select class="form-control" id="deptSelect" name="dpId">
@@ -154,7 +152,7 @@
                     </select>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" id="addClose" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="button" id="mySubmit" class="btn btn-primary">保存</button>
                     </div>
                 </form>
@@ -224,7 +222,7 @@
         eachEmp(1);
 
         /*给多条件选择框查询并填充数据*/
-        addDeptOption("deptSelect");
+        addDeptOption("titleSelect");
 
         /*如果多田间查询按钮点击的话默认加载第一页*/
         $(".serachButton").on("click", function () {
@@ -234,7 +232,10 @@
 
         //点击新建按钮弹窗模态框
         $("#myCreateButton").on("click", function () {
-            addDeptOption("deptSelect");
+            $("#inlineRadio2").removeAttr("checkend");
+            $("#exampleInputName").html("");
+            $("#exampleInputAge").html("");
+            editOption("deptSelect");
         })
 
         //调用提交函数
@@ -243,21 +244,20 @@
         //修改
         editSubmitModel();
 
-        //删除一页
-        deletPage();
-
         //这个是编辑操作
         $("#myTable").on("click", ".editButton", function () {
             $.ajax({
                 url: "${APP_PATH}/getEmp",
                 data: "id=" + this.id,
                 method: "POST",
+                sync:false,
                 success: function (data) {
                     showEditData(data);
                 }
-            })
+            });
         })
 
+        deletPage();
 
         //删除操作
         $("#myTable").on("click", ".deleteButton", function () {
@@ -273,23 +273,6 @@
         })
 
     })
-
-    //编辑模态框显示内容
-    function showEditData(data) {
-        var emp = data.content.empReturned;
-        $("#editForm input[name=\"empId\"]").val(emp.empId);
-        $("#editForm input[name=\"empName\"]").val(emp.empName);
-        var gender = emp.empGender;
-        if (gender == 0) {
-            $("#editForm input[id=\"inlineRadio2\"]").attr("checked", "checked");
-        } else {
-            $("#editForm input[id=\"inlineRadio1\"]").attr("checked", "checked");
-        }
-        $("#editForm input[name=\"empAge\"]").val(emp.empAge);
-        $("#editDeptSelect").empty();
-        addDeptOption("editDeptSelect")
-        $("#editForm option[value=" + emp.dpId + "]").attr("selected", "selected");
-    }
 
     //删除一页的函数
     function deletPage() {
@@ -307,12 +290,14 @@
     }
 
     //遍历某一页的员工
+    var resulttotle;
     function eachEmp(pn) {
         $.ajax({
             url: "${APP_PATH}/emps",
             data: "pn=" + pn,
             method: "GET",
             success: function (data) {
+                resulttotle=data.content.pageInfo.pages;
                 build_emps_table(data);
                 dataPageAdd(data);
                 paging(data,"e");
@@ -322,11 +307,29 @@
 
     /*多条件查询的话用他查询数据*/
     function serachEmp(pn){
+        if(pn!=1){
+            $("#form1 select").val()
+        }
+        var y=0;
+        var temp= $("#form1").serialize().split("&");
+        for(var i=0;i<temp.length;i++){
+            var x=temp[i].split("=");
+            if(x[1]==""||x[1]==null){
+                y++;
+            }
+            if(y==4){
+                eachEmp(1);
+            }
+        }
+
         $.ajax({
             url: "${APP_PATH}/serachEmps",
             data: $("#form1").serialize()+"&pn="+pn,
             method: "GET",
             success: function (data) {
+                $("#form1 input").val("");
+                // $(".select").removeAttr("selected");
+                // $(".select").attr("selected","selected");
                 build_emps_table(data);
                 dataPageAdd(data);
                 paging(data,"s");
@@ -351,28 +354,68 @@
 
     <!--添加员工提交函数-->
     function submitModel() {
-        $("#mySubmit").on("click", function () {
-            $("#createForm").attr("action", "${APP_PATH}/addemp").submit();
+        $("#mySubmit").on("click",function(){
+            <%--$("#createForm").attr("action", "${APP_PATH}/addemp").submit();--%>
+            <%--eachEmp(($("#dataPage>span:eq(1)").html())+1);--%>
+            $.ajax({
+                url: "${APP_PATH}/addemp",
+                method: "POST",
+                cache: false,
+                data:$("#createForm").serialize(),
+                success: function () {
+                    $("#addClose").click();
+                    eachEmp(($("#dataPage>span:eq(1)").html())+1);
+                }
+            })
+        })
+    }
+
+    /*把第一次加载时候的部门数据暂存到数组*/
+    var arr=null;
+
+    /*添加部门的方法*/
+    function editOption(id){
+        $("#"+id).html("");
+        $.each(arr, function (index, deptItem) {
+            var optionName = deptItem.deptName;
+            var option = $("<option></option>").attr("value", deptItem.deptId).append(optionName);
+            $("#" + id).append(option);
         })
     }
 
     <!--添加员工模态框里的部门信息填充，供用户选择添加-->
     function addDeptOption(check) {
+            $.ajax({
+                url: "${APP_PATH}/depts",
+                method: "POST",
+                sync:false,
+                success: function (data) {
+                    //成功之后调用添加select表单内容
+                    var dept = data.content.depts;
+                    arr=dept;
+                    $.each(dept, function (index, deptItem) {
+                        var optionName = deptItem.deptName;
+                        var option = $("<option></option>").attr("value", deptItem.deptId).append(optionName);
+                        $("#" + check).append(option);
+                    })
+                }
+            })
+    }
 
-        $.ajax({
-            url: "${APP_PATH}/depts",
-            method: "GET",
-            success: function (data) {
-                //成功之后调用添加select表单内容
-                var dept = data.content.depts;
-                $.each(dept, function (index, deptItem) {
-                    var optionName = deptItem.deptName;
-                    var option = $("<option></option>").attr("value", deptItem.deptId).append(optionName);
-                    $("#" + check).append(option);
-                })
-            }
-        })
-
+    //编辑模态框显示内容
+    function showEditData(data) {
+        var emp = data.content.empReturned;
+        $("#editForm input[name=\"empId\"]").val(emp.empId);
+        $("#editForm input[name=\"empName\"]").val(emp.empName);
+        var gender = emp.empGender;
+        if (gender == 0) {
+            $("#editForm input[id=\"inlineRadio2\"]").attr("checked", "checked");
+        } else {
+            $("#editForm input[id=\"inlineRadio1\"]").attr("checked", "checked");
+        }
+        $("#editForm input[name=\"empAge\"]").val(emp.empAge);
+        editOption("editDeptSelect");
+        $("#editForm option[value=" + emp.dpId + "]").attr("selected", "selected");
 
     }
 

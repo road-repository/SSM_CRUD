@@ -199,16 +199,16 @@
         from employee e LEFT JOIN department d ON e.dp_id=d.dept_id
         <where>
         <if test="empName!=null">
-            emp_name LIKE "%" #{empName} "%"
+            e.emp_name LIKE "%" #{empName} "%"
         </if>
         <if test="empGender!=null">
-            and emp_gender=#{empGender}
+            and e.emp_gender=#{empGender}
         </if>
         <if test="empAge!=null">
-            and emp_age=#{empAge}
+            and e.emp_age=#{empAge}
         </if>
         <if test="dpId!=null">
-            and dp_id=#{dpId}
+           and e.dp_id=#{dpId}
         </if>
         </where>
     </select>
