@@ -1,0 +1,113 @@
+*{
+	font-size:9pt;
+	border:0;
+	margin:0;
+	padding:0;
+}
+body{
+	font-family:'微软雅黑','Microsoft YaHei';
+	width:187px;
+	overflow-x:hidden;
+	background: #f0f9fd;
+}
+a,a:focus{
+	text-decoration: none;
+	color:#000;
+	outline:none;
+	
+}
+a:hover{
+	color:#00a4ac;
+	text-decoration: none;
+}
+img{
+	border:0;
+}
+dl, dt, dd, span{
+	margin:0;
+	padding:0;
+	display: block;
+}
+ul,li{
+	display: block;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.left_top{
+	background: url(../img/lefttop.gif) repeat-x;
+	height:40px;
+	color:#fff;
+	font-size: 14px;
+	line-height: 40px;
+}
+.left_top span{
+	margin:10px 8px 0 8px;
+	background:url(../img/leftico.png) no-repeat;
+	width: 20px;
+	height:21px;
+	float:left;
+}
+.left_menu{
+	width:187px;
+	overflow: hidden;
+	background: url(../img/leftline.gif) repeat-y right
+}
+.left_menu dd{
+	background: url(../img/leftmenubg.gif) repeat-x;
+	line-height: 35px;
+	font-weight: bold;
+	font-size: 14px;
+	border-right: solid 1px #b7d5df;
+}
+.left_menu dd .title{
+	cursor:pointer;
+}
+.left_menu dd .title span{
+	float:left;
+	margin:10px 8px 0 12px;
+}
+.left_menu dd .menuson{
+	display: none;
+	line-height: 30px;
+	font-weight: normal;
+}
+.left_menu dd:first-child .menuson{
+	display: block;
+}
+.left_menu dd .menuson li{
+	cursor:pointer;
+}
+.left_menu dd .menuson li cite{
+	display: block;
+	float:left;
+	margin-left: 32px;
+	background: url(../img/list.gif) no-repeat;
+	width: 16px;
+	height:16px;
+	margin-top:7px;
+}
+.left_menu dd .menuson li a{
+	display: block; 
+}
+.left_menu dd .menuson li.active{
+	position: relative;
+	background: url(../img/libg.png) repeat-x;
+	line-height: 30px;
+	color:#fff;
+}
+.left_menu dd .menuson li.active a{
+	color:#fff;
+	
+}
+.left_menu dd .menuson li.active i{
+	display:block;
+	background: url(../img/sj.png) no-repeat;
+	width:6px;
+	height:11px;
+	position: absolute;
+	right:0;
+	z-index: 1000;
+	top:9px;
+	right:-1px;
+}

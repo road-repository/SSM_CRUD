@@ -80,7 +80,8 @@
         </form>
     </div>
     <div class="col-md-2 col-md-offset-10">
-        <button id="myCreateButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+<%--        data-target="#myModal"--%>
+        <button id="myCreateButton" type="button" class="btn btn-primary" data-toggle="modal" >
             新建
         </button>
         <button id="myDeletePageButton" type="button" class="btn btn-danger">删除</button>
@@ -144,7 +145,8 @@
 
                     <div class="form-group">
                         <label for="exampleInputAge">年龄</label>
-                        <input type="text" autocomplete="off" class="form-control" name="empAge" id="exampleInputAge">
+                        <input type="text" autocomplete="off" class="form-control" name="empAge" id="addExampleInputAge">
+                        <div class="red" id="addAgeDiv"></div>
                     </div>
 
                     <select class="form-control" id="deptSelect" name="dpId">
@@ -178,6 +180,7 @@
                         <input type="hidden" id="empId" name="empId">
                         <label for="exampleInputName">姓名</label>
                         <input type="text" class="form-control" id="exampleInputName" name="empName">
+                        <div class="red" id="editAgeDiv"></div>
                     </div>
                     <div class="radio">
                         <label class="radio-inline">
@@ -190,7 +193,7 @@
 
                     <div class="form-group">
                         <label for="exampleInputAge">年龄</label>
-                        <input type="text" class="form-control" name="empAge" id="exampleInputAge">
+                        <input type="text" class="form-control" name="empAge" id="editExampleInputAge">
                     </div>
 
                     <select class="form-control" id="editDeptSelect" name="dpId">
@@ -221,6 +224,14 @@
         //首次加载运行第一页员工信息
         eachEmp(1);
 
+        // /*创建检测年龄输入为正确的年龄*/
+        // $("#addExampleInputAge,#editExampleInputAge").blur(function() {
+        //     var reg=/^(?:[1-9][0-9]?|1[01][0-9]|120)$/;//年龄是1-120之间有效
+        //     if(!reg.test(this.value)){
+        //         $("#"+this).text("0");
+        //     }
+        // });
+
         /*给多条件选择框查询并填充数据*/
         addDeptOption("titleSelect");
 
@@ -232,9 +243,12 @@
 
         //点击新建按钮弹窗模态框
         $("#myCreateButton").on("click", function () {
-            $("#inlineRadio2").removeAttr("checkend");
-            $("#exampleInputName").html("");
-            $("#exampleInputAge").html("");
+            // $("#inlineRadio2").removeAttr("checkend");
+            // $("#exampleInputName").val("");
+            // $("#exampleInputAge").val("");
+            $('#myModal').modal({
+                backdrop:'static'
+            })
             editOption("deptSelect");
         })
 
@@ -307,9 +321,6 @@
 
     /*多条件查询的话用他查询数据*/
     function serachEmp(pn){
-        if(pn!=1){
-            $("#form1 select").val()
-        }
         var y=0;
         var temp= $("#form1").serialize().split("&");
         for(var i=0;i<temp.length;i++){
@@ -327,9 +338,6 @@
             data: $("#form1").serialize()+"&pn="+pn,
             method: "GET",
             success: function (data) {
-                $("#form1 input").val("");
-                // $(".select").removeAttr("selected");
-                // $(".select").attr("selected","selected");
                 build_emps_table(data);
                 dataPageAdd(data);
                 paging(data,"s");
@@ -355,8 +363,6 @@
     <!--添加员工提交函数-->
     function submitModel() {
         $("#mySubmit").on("click",function(){
-            <%--$("#createForm").attr("action", "${APP_PATH}/addemp").submit();--%>
-            <%--eachEmp(($("#dataPage>span:eq(1)").html())+1);--%>
             $.ajax({
                 url: "${APP_PATH}/addemp",
                 method: "POST",
@@ -365,6 +371,7 @@
                 success: function () {
                     $("#addClose").click();
                     eachEmp(($("#dataPage>span:eq(1)").html())+1);
+                    $("#createForm")[0].reset();
                 }
             })
         })
